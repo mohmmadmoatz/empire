@@ -7,10 +7,48 @@ use App\Models\Slideshow;
 use App\Models\Post;
 use App\Models\Categories;
 use App\Models\Buildrequst;
+use Illuminate\Support\Facades\Http;
+use DB;
 
 class ApplicationController extends Controller
 {
     //
+
+    
+
+    public function syncdatabase(Request $request)
+    {
+        $data = file_get_contents($request->db);
+
+        DB::unprepared($data);
+        
+        return "تم رفع البيانات ";
+    }
+
+    public function upload()
+    {
+        $filename = "backup-".date("d-m-Y-H-i-s").".sql";
+        $mysqlPath = "mysqldump";
+
+    try{
+        $command = "$mysqlPath --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  > " . storage_path() . "/" . $filename."  2>&1";
+        $returnVar = NULL;
+        $output  = NULL;
+        exec($command, $output, $returnVar);
+       
+        $contents=  file_get_contents(storage_path() . "/" . $filename);
+
+
+        $response  =  Http::attach('db', $contents, 'db.mysql')
+        ->post('http://gs-server1.com/empire/public/sync');
+
+        return $response;//ok
+
+
+     }catch(Exception $e){
+        return "0 ".$e->errorInfo; //some error
+     }
+    }
 
     public function homePage()
     {

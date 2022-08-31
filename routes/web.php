@@ -30,4 +30,7 @@ Route::get('/dashboard', function () {
     return  redirect('admin');
 })->middleware(['auth'])->name('dashboard');
 
+Route::get('upload', 'ApplicationController@upload')->name('backup');
+Route::post('sync', 'ApplicationController@syncdatabase')->name('sync');
+
 require __DIR__.'/auth.php';

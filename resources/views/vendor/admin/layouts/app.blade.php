@@ -88,7 +88,7 @@
                     <a href="@route(getRouteName().'.'.'customer'.'.create')"class="btn btn-secondary m-2">زبون جديد</a>
                     <a href="@route(getRouteName().'.'.'project'.'.create')" class="btn btn-info m-2">مشروع جديد</a>
                     <a href="@route(getRouteName().'.'.'expense'.'.create')" class="btn btn-danger m-2">مصروف جديد</a>
-                    <a href="#" class="btn btn-warning m-2">رفع البيانات
+                    <a href="@route('backup')" class="btn btn-warning m-2">رفع البيانات
                         <i class="fa fa-upload"></i>
 
                     </a>
